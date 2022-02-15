@@ -3,6 +3,7 @@ package com.murdered.cinema.dao;
 import com.murdered.cinema.model.Film;
 import com.murdered.cinema.model.Session;
 import com.murdered.cinema.model.user.User;
+import com.murdered.cinema.model.user.UserRole;
 
 import javax.xml.transform.Result;
 import java.lang.reflect.InvocationTargetException;
@@ -17,9 +18,10 @@ public class DBManager {
     private String SQL_LOGIN = "root";
     private String SQL_PASSWORD = "root";
 
-    private String SQL_FIND_ALL_FILMS = "SELECT * FROM film";
-    private String SQL_FIND_ALL_SESSIONS_ORDER_BY_DATE = "SELECT * FROM session ORDER BY time";
-    private String SQL_INSERT_USER = "INSERT INTO user(email, password, login, role_id) VALUES(?, ?, ?, ?)";
+    private static final String SQL_FIND_ALL_FILMS = "SELECT * FROM film";
+    private static final String SQL_FIND_ALL_SESSIONS_ORDER_BY_DATE = "SELECT * FROM session ORDER BY time";
+    private static final String SQL_INSERT_USER = "INSERT INTO user(email, password, login, role_id) VALUES(?, ?, ?, ?)";
+    private static final String SQL_FIND_USER_BY_LOGIN_PASS = "SELECT * FROM user WHERE login = ? AND password = ?";
 
     public static DBManager getInstance(){
         if(instance == null){
@@ -64,11 +66,11 @@ public class DBManager {
 
     public static void main(String[] args) throws SQLException {
         DBManager dbManager = DBManager.getInstance();
-        List<Session> sessions = dbManager.getSchedule();
+        User user = dbManager.getUserByLoginAndPassword("admin", "adminpassword");
 
-        for(Session session : sessions){
-            System.out.println(session);
-        }
+        System.out.println(user);
+
+
     }
 
     public List<Session> getSchedule() throws SQLException {
@@ -93,7 +95,7 @@ public class DBManager {
 
     public List<Session> getActualSchedule(Time time){
         return null;
-    }
+    } //TODO
 
     public int insertUser(User newUser) throws SQLException {
         PreparedStatement statement = getConnection().prepareStatement(SQL_INSERT_USER);
@@ -105,5 +107,25 @@ public class DBManager {
         int changedRows = statement.executeUpdate();
 
         return changedRows;
+    }
+
+    public User getUserByLoginAndPassword(String login, String password) throws SQLException {
+        User tempUser = new User();
+
+        PreparedStatement statement = getConnection().prepareStatement(SQL_FIND_USER_BY_LOGIN_PASS);
+        statement.setString(1, login);
+        statement.setString(2, password);
+
+        ResultSet resultSet = statement.executeQuery();
+
+        while (resultSet.next()){
+            tempUser.setId(resultSet.getInt("id"));
+            tempUser.setLogin(resultSet.getString("login"));
+            tempUser.setPassword(resultSet.getString("password"));
+            tempUser.setEmail(resultSet.getString("email"));
+            tempUser.setRole(UserRole.values()[resultSet.getInt("role_id") - 1]);
+        }
+
+        return tempUser;
     }
 }

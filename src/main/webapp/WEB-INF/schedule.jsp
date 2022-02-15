@@ -1,15 +1,16 @@
-<%@ page import="com.murdered.cinema.model.Film" %>
+<%@ page import="com.murdered.cinema.model.Session" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.murdered.cinema.dao.DBManager" %>
-<%@ page import="com.murdered.cinema.model.Session" %>
-<%@ page import="com.murdered.cinema.model.user.User" %><%--
+<%@ page import="com.murdered.cinema.model.user.User" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--
   Created by IntelliJ IDEA.
   User: murdered
-  Date: 10.02.2022
-  Time: 19:51
+  Date: 15.02.2022
+  Time: 21:12
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -24,54 +25,19 @@
                 <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/schedule">Schedule <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="${pageContext.request.contextPath}/films">Films</a>
             </div>
-
-            <div>
-                <% User user = (User) request.getSession().getAttribute("user");
-                    if(user != null)
-                        response.getWriter().println("Hello, " + user.getLogin() + "!");
-                %> <%--TODO maybe--%>
-            </div>
+            <%--<label><% User user = (User) request.getSession().getAttribute("user");
+                if(user != null)
+                    response.getWriter().println("Hello, " + user.getLogin() + "!");
+            %></label>--%>
         </div>
+            <div>
+                <a href="${pageContext.request.contextPath}/cabinet" class="btn btn-dark  mr-2" role="button" aria-pressed="true">Cabinet</a>
+                <a href="${pageContext.request.contextPath}/logout" class="btn btn-dark mr-2" role="button" aria-pressed="true">Logout</a>
+            </div>
     </nav>
 </div>
 
 <div class="col-auto">
-    <table class="table table-bordered">
-        <thead class="thead-dark">
-        <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Genre</th>
-            <th>Duration</th>
-            <th>IMDB</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-
-
-        <%
-            List<Film> filmList = DBManager.getInstance().getFilms();
-
-            for (Film film : filmList) {
-        %>
-        <tr>
-            <td><%= film.getId()%></td>
-            <td><%= film.getTitle()%></td>
-            <td><%= film.getDescription()%></td>
-            <td><%= film.getGenre()%></td>
-            <td><%= film.getDuration()%></td>
-            <td><%= film.getImdbRating()%></td>
-            <td>Edit | Delete</td>
-        </tr>
-        <%
-            }
-        %>
-
-    </table>
-</div>
-
-<div>
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
@@ -96,14 +62,14 @@
             <td><%= session1.getSessionFilm()%></td>
             <td><%= session1.getTime()%></td>
             <td>num of seats</td>
-            <td>Edit | Delete</td>
+            <td><a href="${pageContext.request.contextPath}/buy" class="btn btn-dark btn-sm" role="button" aria-pressed="true">Buy</a></td>
         </tr>
         <%
             }
         %>
 
     </table>
-</div>
 
+</div>
 </body>
 </html>

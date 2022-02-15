@@ -1,7 +1,8 @@
 <%@ page import="com.murdered.cinema.model.Film" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.murdered.cinema.dao.DBManager" %>
-<%@ page import="com.murdered.cinema.model.Session" %><%--
+<%@ page import="com.murdered.cinema.model.Session" %>
+<%@ page import="com.murdered.cinema.model.user.User" %><%--
   Created by IntelliJ IDEA.
   User: murdered
   Date: 10.02.2022
@@ -23,11 +24,18 @@
                 <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/schedule">Schedule <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="${pageContext.request.contextPath}/films">Films</a>
             </div>
+
+            <div>
+                <% User user = (User) request.getSession().getAttribute("user");
+                    if(user != null)
+                        response.getWriter().println("Hello, " + user.getLogin() + "!");
+                %> <%--TODO maybe--%>
+            </div>
         </div>
     </nav>
 </div>
 
-<div>
+<div class="col-auto">
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>

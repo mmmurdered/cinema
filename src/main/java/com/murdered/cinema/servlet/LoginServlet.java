@@ -8,17 +8,20 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String userRole = req.getParameter("role");
-        if(userRole != null){
+        /*HttpSession httpSession = req.getSession();
+        User user = (User) httpSession.getAttribute("user");
+
+        if(user.getRole() != null){
             String schedulePage = "/WEB-INF/index.jsp";
             req.getRequestDispatcher(schedulePage).forward(req, res);
         }
-
+*/
         String page = "/WEB-INF/login.jsp";
         req.getRequestDispatcher(page).forward(req, res);
     }
@@ -28,16 +31,25 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
 
-        User user = DBManager.getInstance().getUserByLoginAndPassword(login, password); //TODO
+        System.out.println(login);
+        System.out.println(password);
 
-        if(user == null){
-            String page = "/WEB-INF/login.jsp";
-            request.getRequestDispatcher(page).forward(request, response);
+        User user = null; //TODO
+        try {
+            user = DBManager.getInstance().getUserByLoginAndPassword(login, password);
+        } catch (SQLException e) {
+            System.out.println("GET USER LOGIN PASS ERROR");
+            e.printStackTrace();
         }
 
-        request.getSession().setAttribute("login", login);
-        request.getSession().setAttribute("password", password);
-        request.getSession().setAttribute("role", user.getRole());
+        System.out.println(user);
+
+        /*if(user == null){
+            String page = "/WEB-INF/login.jsp";
+            request.getRequestDispatcher(page).forward(request, response);
+        }*/
+
+        request.getSession().setAttribute("user", user);
 
         if(user.getRole().equals(UserRole.ADMIN)){
             String page = "/WEB-INF/adminCabinet.jsp";

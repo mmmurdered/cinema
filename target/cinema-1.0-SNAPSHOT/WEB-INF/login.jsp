@@ -62,15 +62,15 @@
 <body class="text-center">
 
 <main class="form-signin">
-    <form>
+    <form action="${pageContext.request.contextPath}/login" method="post">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">
-            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-            <label for="floatingInput">Email address</label>
+            <input type="login" name="login" class="form-control" id="floatingInput" placeholder="Login">
+            <label for="floatingInput">Login</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
         </div>
 

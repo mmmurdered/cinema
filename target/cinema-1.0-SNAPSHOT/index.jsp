@@ -1,6 +1,8 @@
 <%@ page import="com.murdered.cinema.model.Session" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.murdered.cinema.dao.DBManager" %><%--
+<%@ page import="com.murdered.cinema.dao.DBManager" %>
+<%@ page import="com.murdered.cinema.model.user.User" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%--
   Created by IntelliJ IDEA.
   User: murdered
   Date: 07.02.2022
@@ -22,14 +24,17 @@
                 <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/schedule">Schedule <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="${pageContext.request.contextPath}/films">Films</a>
             </div>
+            <%--<label><% User user = (User) request.getSession().getAttribute("user");
+                if(user != null)
+                    response.getWriter().println("Hello, " + user.getLogin() + "!");
+            %></label>--%>
         </div>
-            <a href="${pageContext.request.contextPath}/cabinet" class="btn btn-dark  mr-2" role="button" aria-pressed="true">Cabinet</a>
             <a href="${pageContext.request.contextPath}/register" class="btn btn-dark mr-2" role="button" aria-pressed="true">Register</a>
-            <a href="${pageContext.request.contextPath}/login" class="btn btn-dark btn-lg" role="button" aria-pressed="true">Login</a>
+            <a href="${pageContext.request.contextPath}/login" class="btn btn-dark" role="button" aria-pressed="true">Login</a>
     </nav>
 </div>
 
-<div>
+<div class="col-auto">
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
@@ -38,7 +43,6 @@
             <th>Genre</th>
             <th>Date and Time</th>
             <th>Free seats</th>
-            <th></th>
             <%--<th>Available</th>--%>
         </tr>
         </thead>
@@ -54,7 +58,6 @@
             <td><%= session1.getSessionFilm()%></td>
             <td><%= session1.getTime()%></td>
             <td>num of seats</td>
-            <td><a href="${pageContext.request.contextPath}/buy" class="btn btn-dark btn-sm" role="button" aria-pressed="true">Buy</a></td>
         </tr>
         <%
             }

@@ -30,7 +30,7 @@ public class RegisterServlet extends HttpServlet {
 
         try {
             DBManager.getInstance().insertUser(newUser);
-            response.getWriter().println("Successfully registered");
+            //response.getWriter().println("Successfully registered");
             response.sendRedirect(request.getContextPath() + "/schedule");
         } catch (Exception e) {
             e.printStackTrace();
