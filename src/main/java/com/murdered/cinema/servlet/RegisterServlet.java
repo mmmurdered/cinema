@@ -1,14 +1,14 @@
 package com.murdered.cinema.servlet;
 
-import com.murdered.cinema.dao.DBManager;
+import com.murdered.cinema.dao.user.UserDaoImpl;
 import com.murdered.cinema.model.user.User;
 import com.murdered.cinema.model.user.UserRole;
+import com.murdered.cinema.service.user.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
@@ -29,7 +29,8 @@ public class RegisterServlet extends HttpServlet {
         newUser.setRole(UserRole.REGISTERED_USER);
 
         try {
-            DBManager.getInstance().insertUser(newUser);
+            UserService userService = new UserService(UserDaoImpl.getInstance());
+            userService.addUser(newUser);
             //response.getWriter().println("Successfully registered");
             response.sendRedirect(request.getContextPath() + "/schedule");
         } catch (Exception e) {

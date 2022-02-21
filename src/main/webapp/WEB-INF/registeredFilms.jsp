@@ -1,6 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.murdered.cinema.model.Film" %>
-<%@ page import="com.murdered.cinema.dao.DBManager" %>
+<%@ page import="com.murdered.cinema.service.film.FilmService" %>
+<%@ page import="com.murdered.cinema.dao.film.FilmDaoImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +40,8 @@
 
 
         <%
-            List<Film> filmList = DBManager.getInstance().getFilms();
+            FilmService filmService = new FilmService(FilmDaoImpl.getInstance());
+            List<Film> filmList = filmService.getAllFilms();
 
             for (Film film : filmList) {
         %>

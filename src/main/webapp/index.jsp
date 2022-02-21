@@ -1,7 +1,11 @@
 <%@ page import="com.murdered.cinema.model.Session" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.murdered.cinema.dao.DBManager" %>
 <%@ page import="com.murdered.cinema.model.user.User" %>
+<%@ page import="com.murdered.cinema.service.session.SessionService" %>
+<%@ page import="com.murdered.cinema.dao.session.SessionDao" %>
+<%@ page import="com.murdered.cinema.dao.session.SessionDaoImpl" %>
+<%@ page import="com.murdered.cinema.dto.SessionDTO" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%--
   Created by IntelliJ IDEA.
   User: murdered
@@ -33,7 +37,11 @@
             <a href="${pageContext.request.contextPath}/login" class="btn btn-dark" role="button" aria-pressed="true">Login</a>
     </nav>
 </div>
-
+<%--<div>
+    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=name">Sort by name</a>
+    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=time">Sort by time</a>
+    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=available_places">Sort by places</a>
+</div>--%>
 <div class="col-auto">
     <table class="table table-bordered">
         <thead class="thead-dark">
@@ -49,15 +57,23 @@
 
 
         <%
-            List<Session> schedule = DBManager.getInstance().getSchedule(); // !!!!!!!!!!!!!!!!!!!
+            SessionService sessionService = new SessionService(SessionDaoImpl.getInstance());
+            List<Session> schedule = sessionService.getAllSessions();
 
-            for (Session session1 : schedule) {
+            List<SessionDTO> sessionDTOList = new ArrayList<>();
+
+            for(Session session_cinema : schedule){
+                SessionDTO sessionDTO = new SessionDTO(session_cinema);
+                sessionDTOList.add(sessionDTO);
+            }
+
+            for (SessionDTO session_cinema : sessionDTOList) {
         %>
         <tr>
-            <td><%= session1.getId()%></td>
-            <td><%= session1.getSessionFilm()%></td>
-            <td><%= session1.getTime()%></td>
-            <td>num of seats</td>
+            <td><%= session_cinema.getSessionFilm().getTitle()%></td>
+            <td><%= session_cinema.getSessionFilm().getGenre()%></td>
+            <td><%= session_cinema.getTime()%></td>
+            <td><%= session_cinema.getAvailablePlaces()%></td>
         </tr>
         <%
             }
@@ -66,5 +82,7 @@
 </table>
 
 </div>
+
+
 </body>
 </html>

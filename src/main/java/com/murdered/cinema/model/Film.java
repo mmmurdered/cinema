@@ -10,6 +10,14 @@ public class Film {
 
     public Film(){}
 
+    public Film(String title, String description, String genre, int duration, double imdbRating) {
+        this.title = title;
+        this.description = description;
+        this.genre = genre;
+        this.duration = duration;
+        this.imdbRating = imdbRating;
+    }
+
     public Film(int id, String title, String description, String genre, int duration, double imdbRating) {
         this.id = id;
         this.title = title;

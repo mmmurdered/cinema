@@ -1,14 +1,18 @@
 package com.murdered.cinema.servlet;
 
-import com.murdered.cinema.dao.DBManager;
+import com.murdered.cinema.dao.film.FilmDaoImpl;
+import com.murdered.cinema.dao.user.UserDaoImpl;
+import com.murdered.cinema.model.Film;
 import com.murdered.cinema.model.user.User;
 import com.murdered.cinema.model.user.UserRole;
+import com.murdered.cinema.service.film.FilmService;
+import com.murdered.cinema.service.user.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -35,12 +39,14 @@ public class LoginServlet extends HttpServlet {
         System.out.println(password);
 
         User user = null; //TODO
-        try {
-            user = DBManager.getInstance().getUserByLoginAndPassword(login, password);
-        } catch (SQLException e) {
-            System.out.println("GET USER LOGIN PASS ERROR");
-            e.printStackTrace();
-        }
+
+        UserService userService = new UserService(UserDaoImpl.getInstance());
+        user = userService.getUser(login, password);
+
+        FilmService filmService = new FilmService(FilmDaoImpl.getInstance());
+        List<Film> filmList = filmService.getAllFilms();
+
+        request.setAttribute("filmList", filmList);
 
         System.out.println(user);
 
@@ -51,13 +57,8 @@ public class LoginServlet extends HttpServlet {
 
         request.getSession().setAttribute("user", user);
 
-        if(user.getRole().equals(UserRole.ADMIN)){
-            String page = "/WEB-INF/adminCabinet.jsp";
-            request.getRequestDispatcher(page).forward(request, response);
-        }
-        if(user.getRole().equals(UserRole.REGISTERED_USER)){
-            String page = "/WEB-INF/userCabinet.jsp";
-            request.getRequestDispatcher(page).forward(request, response);
-        }
+        String page = "/WEB-INF/schedule.jsp";
+        response.sendRedirect(request.getContextPath() + "/schedule");
+
     }
 }

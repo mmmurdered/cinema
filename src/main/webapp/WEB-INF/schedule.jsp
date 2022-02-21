@@ -1,7 +1,8 @@
 <%@ page import="com.murdered.cinema.model.Session" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.murdered.cinema.dao.DBManager" %>
 <%@ page import="com.murdered.cinema.model.user.User" %>
+<%@ page import="com.murdered.cinema.service.session.SessionService" %>
+<%@ page import="com.murdered.cinema.dao.session.SessionDaoImpl" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
@@ -37,6 +38,12 @@
     </nav>
 </div>
 
+<div>
+    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=name">Sort by name</a>
+    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=time">Sort by time</a>
+    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=available_places">Sort by places</a>
+</div>
+
 <div class="col-auto">
     <table class="table table-bordered">
         <thead class="thead-dark">
@@ -51,23 +58,20 @@
         </tr>
         </thead>
 
-
-        <%
-            List<Session> schedule = DBManager.getInstance().getSchedule(); // !!!!!!!!!!!!!!!!!!!
-
-            for (Session session1 : schedule) {
-        %>
+        <c:forEach items="${sessionListCinema}" var="session_cinema">
+            <tr>
+                <td><c:out value="${session_cinema.getSessionFilm().getTitle()}"/></td>
+                <td><c:out value="${session_cinema.getSessionFilm().getGenre()}"/></td>
+                <td><c:out value="${session_cinema.getTime()}"/></td>
+                <td><c:out value="${session_cinema.getAvailablePlaces()}"/></td>
+                <td>
+                    <a href="${pageContext.request.contextPath}/buy?session_id=${session_cinema.getId()}&session_film_id=${session_cinema.getSessionFilm()}"
+                       class="btn btn-dark btn-sm" role="button" aria-pressed="true">Buy
+                    </a>
+                </td>
+            </tr>
+        </c:forEach>
         <tr>
-            <td><%= session1.getId()%></td>
-            <td><%= session1.getSessionFilm()%></td>
-            <td><%= session1.getTime()%></td>
-            <td>num of seats</td>
-            <td><a href="${pageContext.request.contextPath}/buy" class="btn btn-dark btn-sm" role="button" aria-pressed="true">Buy</a></td>
-        </tr>
-        <%
-            }
-        %>
-
     </table>
 
 </div>

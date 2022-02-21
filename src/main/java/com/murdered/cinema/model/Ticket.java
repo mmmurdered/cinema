@@ -4,19 +4,26 @@ import com.murdered.cinema.model.user.User;
 
 public class Ticket {
     private int id;
-    private User user;
-    private Session session;
-    private Film sessionFilm;
-    private Seat seat;
+    private int userId;
+    private int sessionId;
+    private int sessionFilmId;
+    private int seatId;
 
     public Ticket(){}
 
-    public Ticket(int id, User user, Session session, Film sessionFilm, Seat seat) {
+    public Ticket(int id, int userId, int sessionId, int sessionFilmId, int seatId) {
         this.id = id;
-        this.user = user;
-        this.session = session;
-        this.sessionFilm = sessionFilm;
-        this.seat = seat;
+        this.userId = userId;
+        this.sessionId = sessionId;
+        this.sessionFilmId = sessionFilmId;
+        this.seatId = seatId;
+    }
+
+    public Ticket(int userId, int sessionId, int sessionFilmId, int seatId) {
+        this.userId = userId;
+        this.sessionId = sessionId;
+        this.sessionFilmId = sessionFilmId;
+        this.seatId = seatId;
     }
 
     public int getId() {
@@ -27,46 +34,46 @@ public class Ticket {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public Session getSession() {
-        return session;
+    public int getSessionId() {
+        return sessionId;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
     }
 
-    public Film getSessionFilm() {
-        return sessionFilm;
+    public int getSessionFilmId() {
+        return sessionFilmId;
     }
 
-    public void setSessionFilm(Film sessionFilm) {
-        this.sessionFilm = sessionFilm;
+    public void setSessionFilmId(int sessionFilmId) {
+        this.sessionFilmId = sessionFilmId;
     }
 
-    public Seat getSeat() {
-        return seat;
+    public int getSeatId() {
+        return seatId;
     }
 
-    public void setSeat(Seat seat) {
-        this.seat = seat;
+    public void setSeatId(int seatId) {
+        this.seatId = seatId;
     }
 
     @Override
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
-                ", user=" + user +
-                ", session=" + session +
-                ", sessionFilm=" + sessionFilm +
-                ", seat=" + seat +
+                ", userId=" + userId +
+                ", sessionId=" + sessionId +
+                ", sessionFilmId=" + sessionFilmId +
+                ", seatId=" + seatId +
                 '}';
     }
 }

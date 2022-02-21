@@ -1,8 +1,13 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.murdered.cinema.model.Film" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.murdered.cinema.dao.DBManager" %>
+
 <%@ page import="com.murdered.cinema.model.Session" %>
-<%@ page import="com.murdered.cinema.model.user.User" %><%--
+<%@ page import="com.murdered.cinema.model.user.User" %>
+<%@ page import="com.murdered.cinema.service.film.FilmService" %>
+<%@ page import="com.murdered.cinema.dao.film.FilmDaoImpl" %>
+<%@ page import="com.murdered.cinema.service.session.SessionService" %>
+<%@ page import="com.murdered.cinema.dao.session.SessionDaoImpl" %><%--
   Created by IntelliJ IDEA.
   User: murdered
   Date: 10.02.2022
@@ -37,6 +42,10 @@
 
 <div class="col-auto">
     <table class="table table-bordered">
+        <div>
+            <a class="btn btn-dark" href="${pageContext.request.contextPath}/editFilm?action=addFilm">Add new film</a>
+        </div>
+
         <thead class="thead-dark">
         <tr>
             <th>Id</th>
@@ -51,7 +60,8 @@
 
 
         <%
-            List<Film> filmList = DBManager.getInstance().getFilms();
+            FilmService filmService = new FilmService(FilmDaoImpl.getInstance());
+            List<Film> filmList = filmService.getAllFilms();
 
             for (Film film : filmList) {
         %>
@@ -62,17 +72,23 @@
             <td><%= film.getGenre()%></td>
             <td><%= film.getDuration()%></td>
             <td><%= film.getImdbRating()%></td>
-            <td>Edit | Delete</td>
+            <td>
+                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/editFilm?action=deleteFilm&id=<%= film.getId()%>">Delete</a> <%--todo--%>
+            </td>
         </tr>
         <%
             }
         %>
 
     </table>
+
 </div>
 
-<div>
+<div class="col-auto">
     <table class="table table-bordered">
+        <div>
+            <a class="btn btn-dark" href="${pageContext.request.contextPath}/editSession?action=addSession">Add new session</a>
+        </div>
         <thead class="thead-dark">
         <tr>
             <%--<th>Id</th>--%>
@@ -81,28 +97,24 @@
             <th>Date and Time</th>
             <th>Free seats</th>
             <th></th>
-            <%--<th>Available</th>--%>
         </tr>
         </thead>
 
-
-        <%
-            List<Session> schedule = DBManager.getInstance().getSchedule(); // !!!!!!!!!!!!!!!!!!!
-
-            for (Session session1 : schedule) {
-        %>
+        <c:forEach items="${sessionListCinema}" var="session_cinema">
+            <tr>
+                <td><c:out value="${session_cinema.getSessionFilm().getTitle()}"/></td>
+                <td><c:out value="${session_cinema.getSessionFilm().getGenre()}"/></td>
+                <td><c:out value="${session_cinema.getTime()}"/></td>
+                <td><c:out value="${session_cinema.getAvailablePlaces()}"/></td>
+                <td>
+                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/editSession?action=deleteSession&id=${session_cinema.getId()}">
+                        Delete</a> <%--todo--%>
+                </td>
+            </tr>
+        </c:forEach>
         <tr>
-            <td><%= session1.getId()%></td>
-            <td><%= session1.getSessionFilm()%></td>
-            <td><%= session1.getTime()%></td>
-            <td>num of seats</td>
-            <td>Edit | Delete</td>
-        </tr>
-        <%
-            }
-        %>
-
     </table>
+
 </div>
 
 </body>

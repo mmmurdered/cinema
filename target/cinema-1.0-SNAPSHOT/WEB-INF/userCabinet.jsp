@@ -1,5 +1,4 @@
 <%@ page import="com.murdered.cinema.model.Film" %>
-<%@ page import="com.murdered.cinema.dao.DBManager" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.murdered.cinema.model.user.User" %><%--
   Created by IntelliJ IDEA.
@@ -45,6 +44,9 @@
         </thead>
         <tr>
 <%--TODO--%>
+            <%
+
+            %>
         </tr>
 
     </table>
