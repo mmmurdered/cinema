@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface TicketDao extends DAO<Ticket> {
     public int getNumOfTicketsBySessionId(long sessionId);
+
+    public List<Ticket> getTicketsByUserId(long userId);
 }

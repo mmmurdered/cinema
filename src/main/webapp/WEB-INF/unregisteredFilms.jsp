@@ -34,7 +34,6 @@
   <table class="table table-bordered">
     <thead class="thead-dark">
     <tr>
-      <th>Id</th>
       <th>Title</th>
       <th>Description</th>
       <th>Genre</th>
@@ -52,7 +51,6 @@
       for (Film film : filmList) {
     %>
     <tr>
-      <td><%= film.getId()%></td>
       <td><%= film.getTitle()%></td>
       <td><%= film.getDescription()%></td>
       <td><%= film.getGenre()%></td>

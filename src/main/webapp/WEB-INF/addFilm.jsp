@@ -21,31 +21,31 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Title:</label>
                     <div class="col-lg-8">
-                        <input name="title"  class="form-control" type="text" value="">
+                        <input name="title"  class="form-control" type="text" value="" minlength="1" maxlength="100">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Description:</label>
                     <div class="col-lg-8">
-                        <input name="description"  class="form-control" type="text" value="">
+                        <input name="description"  class="form-control" type="text" value="" minlength="1" maxlength="2000">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Genre:</label>
                     <div class="col-lg-8">
-                        <input name="genre"  class="form-control" type="text" value="">
+                        <input name="genre"  class="form-control" type="text" value="" minlength="1" maxlength="45">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Duration:</label>
                     <div class="col-lg-8">
-                        <input name="duration"  class="form-control" type="text" value="">
+                        <input name="duration"  class="form-control" type="number" value="" min="1">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">IMDB:</label>
                     <div class="col-lg-8">
-                        <input name="imdb"  class="form-control" type="text" value="">
+                        <input name="imdb"  class="form-control" type="number" value="" min="0" max="10" step="0.1">
                     </div>
                 </div>
                 <div>

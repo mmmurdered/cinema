@@ -21,19 +21,19 @@
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Film ID:</label>
                     <div class="col-lg-8">
-                        <input name="film_id"  class="form-control" type="text" value="">
+                        <input name="film_id"  class="form-control" type="number" value="" min="1" minlength="1">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Price:</label>
                     <div class="col-lg-8">
-                        <input name="price"  class="form-control" type="text" value="">
+                        <input name="price"  class="form-control" type="number" value="" min="1" minlength="1">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Available places:</label>
                     <div class="col-lg-8">
-                        <input name="places"  class="form-control" type="text" value="">
+                        <input name="places"  class="form-control" type="number" value="" min="1" minlength="1">
                     </div>
                 </div>
                 <div>

@@ -5,6 +5,7 @@
   Time: 17:26
   To change this template use File | Settings | File Templates.
 --%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -66,8 +67,8 @@
         <h1 class="h3 mb-3 fw-normal">Please register</h1>
 
         <div class="form-floating">
-            <input type="login" name="login" class="form-control"  placeholder="Login">
-            <label for="floatingInput">Login</label>
+            <input type="login" name="login" class="form-control"  placeholder="Login" minlength="4" maxlength="16">
+            <label>Login</label>
         </div>
 
         <div class="form-floating">
@@ -75,7 +76,8 @@
             <label for="floatingInput">Email address</label>
         </div>
         <div class="form-floating">
-            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password"
+                   minlength="6" maxlength="30">
             <label for="floatingPassword">Password</label>
         </div>
 

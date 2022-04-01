@@ -1,5 +1,7 @@
 package com.murdered.cinema.servlet;
 
+import com.murdered.cinema.util.MappingProperties;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -9,9 +11,12 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        MappingProperties mappingProperties = MappingProperties.getInstance();
+        String unregisteredSchedule = mappingProperties.getProperty("unregisteredSchedule");
+
         request.getSession().invalidate();
-        String page = "index.jsp";
-        request.getRequestDispatcher(page).forward(request, response);
+
+        request.getRequestDispatcher(unregisteredSchedule).forward(request, response);
     }
 
     @Override

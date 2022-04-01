@@ -3,6 +3,7 @@ package com.murdered.cinema.dao.film;
 import com.murdered.cinema.connection.BasicConnectionPool;
 import com.murdered.cinema.dao.QUERY;
 import com.murdered.cinema.model.Film;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,23 +14,18 @@ import java.util.List;
 
 import static com.murdered.cinema.dao.QUERY.SQL_FIND_ALL_FILMS;
 
-public class FilmDaoImpl implements FilmDao{
+public class FilmDaoImpl implements FilmDao {
+    private static Logger logger = Logger.getLogger(FilmDaoImpl.class);
 
     private static FilmDaoImpl instance;
-    private Connection connection;
     private BasicConnectionPool basicConnectionPool;
 
-    private FilmDaoImpl(){
-        try {
-            basicConnectionPool = BasicConnectionPool.create();
-            connection = basicConnectionPool.getConnection();
-        } catch (SQLException e){
-            e.printStackTrace();
-        }
+    private FilmDaoImpl() {
+        basicConnectionPool = BasicConnectionPool.getInstance();
     }
 
-    public static FilmDaoImpl getInstance(){
-        if(instance == null){
+    public static FilmDaoImpl getInstance() {
+        if (instance == null) {
             instance = new FilmDaoImpl();
         }
         return instance;
@@ -37,7 +33,8 @@ public class FilmDaoImpl implements FilmDao{
 
     @Override
     public Film save(Film film) {
-        try{
+        Connection connection = basicConnectionPool.getConnection();
+        try {
             PreparedStatement statement = connection.prepareStatement(QUERY.SQL_ADD_NEW_FILM.query());
 
             statement.setString(1, film.getTitle());
@@ -47,10 +44,13 @@ public class FilmDaoImpl implements FilmDao{
             statement.setDouble(5, film.getImdbRating());
 
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
+            logger.error("Error: add film to database");
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.releaseConnection(connection);
         }
-        //todo handling exceptions (affected rows)
+
         return film;
     }
 
@@ -63,13 +63,14 @@ public class FilmDaoImpl implements FilmDao{
     public Film get(long id) {
         Film newFilm = new Film();
 
+        Connection connection = basicConnectionPool.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(QUERY.SQL_FIND_FILM_BY_ID.query());
             statement.setLong(1, id);
 
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 newFilm.setId(resultSet.getInt(1));
                 newFilm.setTitle(resultSet.getString(2));
                 newFilm.setDescription(resultSet.getString(3));
@@ -77,8 +78,11 @@ public class FilmDaoImpl implements FilmDao{
                 newFilm.setDuration(resultSet.getInt(5));
                 newFilm.setImdbRating(resultSet.getDouble(6));
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
+            logger.info("Error: getting film by id from database");
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.releaseConnection(connection);
         }
 
         return newFilm;
@@ -86,14 +90,18 @@ public class FilmDaoImpl implements FilmDao{
 
     @Override
     public void delete(int id) {
+        Connection connection = basicConnectionPool.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(QUERY.SQL_DELETE_FILM_BY_ID.query());
 
             statement.setInt(1, id);
 
             statement.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
+            logger.info("Error: deleting film by id from database");
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.releaseConnection(connection);
         }
     }
 
@@ -101,11 +109,12 @@ public class FilmDaoImpl implements FilmDao{
     public List<Film> getAll() {
         List<Film> filmList = new ArrayList<>();
 
+        Connection connection = basicConnectionPool.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(QUERY.SQL_FIND_ALL_FILMS.query());
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Film tempFilm = new Film();
 
                 tempFilm.setId(resultSet.getInt(1));
@@ -117,8 +126,11 @@ public class FilmDaoImpl implements FilmDao{
 
                 filmList.add(tempFilm);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
+            logger.info("Error: getting all films");
             e.printStackTrace();
+        } finally {
+            basicConnectionPool.releaseConnection(connection);
         }
 
         return filmList;

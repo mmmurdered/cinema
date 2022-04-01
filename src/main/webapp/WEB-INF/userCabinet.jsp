@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.murdered.cinema.model.Film" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.murdered.cinema.model.user.User" %><%--
@@ -37,17 +38,16 @@
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
-            <th>Time </th>
+            <th>Date </th>
             <th>Film</th>
-            <th>Seat</th>
         </tr>
         </thead>
-        <tr>
-<%--TODO--%>
-            <%
-
-            %>
-        </tr>
+        <c:forEach items="${ticketDTOList}" var="ticket">
+            <tr>
+                <td><c:out value="${ticket.getSession().getTime()}"/></td>
+                <td><c:out value="${ticket.getFilm().getTitle()}"/></td>
+            </tr>
+        </c:forEach>
 
     </table>
 </div>

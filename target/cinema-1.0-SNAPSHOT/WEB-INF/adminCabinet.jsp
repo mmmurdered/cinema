@@ -40,6 +40,14 @@
     </nav>
 </div>
 
+<nav aria-label="...">
+    <ul class="pagination pagination-lg">
+        <c:forEach begin="1" end="${countPage}" var="i">
+            <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/cabinet?page=${i}">${i}</a></li>
+        </c:forEach>
+    </ul>
+</nav>
+
 <div class="col-auto">
     <table class="table table-bordered">
         <div>
@@ -58,8 +66,22 @@
         </tr>
         </thead>
 
+        <c:forEach items="${filmListCinema}" var="film_cinema">
+            <tr>
+                <td><c:out value="${film_cinema.getId()}"/></td>
+                <td><c:out value="${film_cinema.getTitle()}"/></td>
+                <td><c:out value="${film_cinema.getDescription()}"/></td>
+                <td><c:out value="${film_cinema.getGenre()}"/></td>
+                <td><c:out value="${film_cinema.getDuration()}"/></td>
+                <td><c:out value="${film_cinema.getImdbRating()}"/></td>
+                <td>
+                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/editSession?action=deleteSession&id=${film_cinema.getId()}">
+                        Delete</a> <%--todo--%>
+                </td>
+            </tr>
+        </c:forEach>
 
-        <%
+        <%--<%
             FilmService filmService = new FilmService(FilmDaoImpl.getInstance());
             List<Film> filmList = filmService.getAllFilms();
 
@@ -73,17 +95,16 @@
             <td><%= film.getDuration()%></td>
             <td><%= film.getImdbRating()%></td>
             <td>
-                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/editFilm?action=deleteFilm&id=<%= film.getId()%>">Delete</a> <%--todo--%>
+                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/editFilm?action=deleteFilm&id=<%= film.getId()%>">Delete</a> &lt;%&ndash;todo&ndash;%&gt;
             </td>
         </tr>
         <%
             }
-        %>
+        %>--%>
 
     </table>
 
 </div>
-
 <div class="col-auto">
     <table class="table table-bordered">
         <div>
@@ -112,7 +133,6 @@
                 </td>
             </tr>
         </c:forEach>
-        <tr>
     </table>
 
 </div>
