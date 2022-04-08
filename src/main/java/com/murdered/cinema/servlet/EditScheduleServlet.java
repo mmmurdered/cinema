@@ -45,6 +45,7 @@ public class EditScheduleServlet extends HttpServlet {
     private void addSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String cabinetLink = mappingProperties.getProperty("cabinetLink");
+        String errorLink = mappingProperties.getProperty("errorLink");
 
         int filmId = Integer.parseInt(request.getParameter("film_id"));
         String date = getDateFromJsp(request);
@@ -54,7 +55,7 @@ public class EditScheduleServlet extends HttpServlet {
         int hours = Integer.parseInt(formatter.format(dateTime));
 
         if(hours < 9 || hours > 22){
-            response.sendRedirect(request.getContextPath() + "/error");
+            response.sendRedirect(request.getContextPath() + errorLink);
             //TODO prop & error page
         } else {
             double price = Double.parseDouble(request.getParameter("price"));
