@@ -23,7 +23,7 @@ public class MappingProperties {
             e.printStackTrace();
         }
     }
-
+    
     public static synchronized MappingProperties getInstance() {
         if (instance == null) {
             instance = new MappingProperties();

@@ -3,6 +3,7 @@ package com.murdered.cinema.servlet;
 import com.murdered.cinema.dao.session.SessionDaoImpl;
 import com.murdered.cinema.model.Session;
 import com.murdered.cinema.service.session.SessionService;
+import com.murdered.cinema.util.MappingProperties;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,10 +17,13 @@ import java.text.SimpleDateFormat;
 public class EditScheduleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        MappingProperties mappingProperties = MappingProperties.getInstance();
+        String addSession = mappingProperties.getProperty("addSession");
+
         String action = request.getParameter("action");
 
         if (action.equals("addSession")) {
-            request.getRequestDispatcher("/WEB-INF/addSession.jsp").forward(request, response);
+            request.getRequestDispatcher(addSession).forward(request, response);
         }
         if(action.equals("deleteSession")){
             deleteSession(request, response);
@@ -39,6 +43,9 @@ public class EditScheduleServlet extends HttpServlet {
     }
 
     private void addSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        MappingProperties mappingProperties = MappingProperties.getInstance();
+        String cabinetLink = mappingProperties.getProperty("cabinetLink");
+
         int filmId = Integer.parseInt(request.getParameter("film_id"));
         String date = getDateFromJsp(request);
         Timestamp dateTime = Timestamp.valueOf(date);
@@ -48,7 +55,7 @@ public class EditScheduleServlet extends HttpServlet {
 
         if(hours < 9 || hours > 22){
             response.sendRedirect(request.getContextPath() + "/error");
-            //TODO error page
+            //TODO prop & error page
         } else {
             double price = Double.parseDouble(request.getParameter("price"));
             int availablePlaces = Integer.parseInt(request.getParameter("places"));
@@ -62,7 +69,7 @@ public class EditScheduleServlet extends HttpServlet {
             SessionService sessionService = new SessionService(SessionDaoImpl.getInstance());
             sessionService.add(session);
 
-            response.sendRedirect(request.getContextPath() + "/cabinet");
+            response.sendRedirect(request.getContextPath() + cabinetLink);
         }
     }
 

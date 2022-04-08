@@ -40,7 +40,7 @@ public class SessionDaoImpl implements SessionDao {
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.info("Error: adding session to database");
-            e.printStackTrace();
+            //e.printStackTrace();
         } finally {
             basicConnectionPool.releaseConnection(connection);
         }
