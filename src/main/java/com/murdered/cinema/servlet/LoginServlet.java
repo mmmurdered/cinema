@@ -18,10 +18,10 @@ import java.util.List;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String loginPage = mappingProperties.getProperty("loginPage");
-        req.getRequestDispatcher(loginPage).forward(req, res);
+        request.getRequestDispatcher(loginPage).forward(request, response);
     }
 
     @Override
@@ -41,11 +41,8 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("error", "User doesn`t exist");
             request.getRequestDispatcher(errorPage).forward(request, response);
         } else {
-            /*FilmService filmService = new FilmService(FilmDaoImpl.getInstance());
-            List<Film> filmList = filmService.getAllFilms();*/
-
-            //request.setAttribute("filmList", filmList); ????
             request.getSession().setAttribute("user", user);
+            request.getSession().setAttribute("lang", request.getParameter("sessionLocale"));
 
             response.sendRedirect(request.getContextPath() + scheduleLink);
         }

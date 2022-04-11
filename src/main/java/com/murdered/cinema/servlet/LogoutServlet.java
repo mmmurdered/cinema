@@ -14,8 +14,8 @@ public class LogoutServlet extends HttpServlet {
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String unregisteredSchedule = mappingProperties.getProperty("unregisteredSchedule");
 
-        request.getSession().invalidate();
-
+        //request.getSession().invalidate();
+        request.getSession().setAttribute("user", null);
         request.getRequestDispatcher(unregisteredSchedule).forward(request, response);
     }
 

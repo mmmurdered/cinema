@@ -1,7 +1,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="com.murdered.cinema.model.Film" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.murdered.cinema.model.user.User" %><%--
+<%@ page import="com.murdered.cinema.model.user.User" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="message"/>
+<%--
   Created by IntelliJ IDEA.
   User: murdered
   Date: 10.02.2022
@@ -9,6 +14,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!doctype html>
 <html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -17,11 +23,10 @@
 <body>
 <div>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <%--    <a class="navbar-brand" href="/schedule">CINEMA</a>--%>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/schedule">Schedule <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/films">Films</a>
+                <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/schedule"><fmt:message key="label.schedule"/></a>
+                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/films"><fmt:message key="label.films"/></a>
             </div>
             <div>
                 <% User user = (User) request.getSession().getAttribute("user");
@@ -34,12 +39,12 @@
 </div>
 
 <div class="col-auto">
-    <label>Your tickets: </label>
+    <label><fmt:message key="label.yourTickets"/>: </label>
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
-            <th>Date </th>
-            <th>Film</th>
+            <th><fmt:message key="label.date"/> </th>
+            <th><fmt:message key="label.films"/></th>
         </tr>
         </thead>
         <c:forEach items="${ticketDTOList}" var="ticket">

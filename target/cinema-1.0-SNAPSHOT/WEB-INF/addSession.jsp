@@ -1,3 +1,7 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="message"/>
 <%--
   Created by IntelliJ IDEA.
   User: murdered
@@ -6,6 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!doctype html>
 <html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -25,24 +30,24 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Price:</label>
+                    <label class="col-lg-3 control-label"><fmt:message key="label.price"/>:</label>
                     <div class="col-lg-8">
                         <input name="price"  class="form-control" type="number" value="" min="1" minlength="1">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Available places:</label>
+                    <label class="col-lg-3 control-label"><fmt:message key="label.availablePlaces"/>:</label>
                     <div class="col-lg-8">
                         <input name="places"  class="form-control" type="number" value="" min="1" minlength="1">
                     </div>
                 </div>
                 <div>
-                    <label class="col-lg-3 control-label">Time:</label>
+                    <label class="col-lg-3 control-label"><fmt:message key="label.time"/>:</label>
                     <input type="datetime-local" name="datetime">
                 </div>
 
                 <div>
-                    <button class="w-100 btn btn-dark btn-lg btn-primary" type="submit">Add</button>
+                    <button class="w-100 btn btn-dark btn-lg btn-primary" type="submit"><fmt:message key="label.add"/></button>
                     <a class="nav-item nav-link" href="${pageContext.request.contextPath}/cabinet">Undo</a>
                 </div>
             </form>

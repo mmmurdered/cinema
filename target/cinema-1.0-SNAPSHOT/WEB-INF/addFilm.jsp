@@ -1,3 +1,7 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="message"/>
 <%--
   Created by IntelliJ IDEA.
   User: murdered
@@ -6,6 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!doctype html>
 <html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -19,25 +24,25 @@
         <div class="col-md-9 personal-info">
             <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Title:</label>
+                    <label class="col-lg-3 control-label"><fmt:message key="label.title"/>:</label>
                     <div class="col-lg-8">
                         <input name="title"  class="form-control" type="text" value="" minlength="1" maxlength="100">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Description:</label>
+                    <label class="col-lg-3 control-label"><fmt:message key="label.description"/>:</label>
                     <div class="col-lg-8">
                         <input name="description"  class="form-control" type="text" value="" minlength="1" maxlength="2000">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Genre:</label>
+                    <label class="col-lg-3 control-label"><fmt:message key="label.genre"/>:</label>
                     <div class="col-lg-8">
                         <input name="genre"  class="form-control" type="text" value="" minlength="1" maxlength="45">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-lg-3 control-label">Duration:</label>
+                    <label class="col-lg-3 control-label"><fmt:message key="label.duration"/>:</label>
                     <div class="col-lg-8">
                         <input name="duration"  class="form-control" type="number" value="" min="1">
                     </div>
@@ -49,7 +54,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="w-100 btn btn-dark btn-lg btn-primary" type="submit">Add</button>
+                    <button class="w-100 btn btn-dark btn-lg btn-primary" type="submit"><fmt:message key="label.add"/></button>
                     <a class="nav-item nav-link" href="${pageContext.request.contextPath}/cabinet">Undo</a>
                 </div>
             </form>

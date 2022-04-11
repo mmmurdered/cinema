@@ -1,3 +1,7 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="message"/>
 <%--
   Created by IntelliJ IDEA.
   User: murdered
@@ -6,7 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <!doctype html>
-<html lang="en">
+<html>
 <head>
     <!-- Bootstrap core CSS -->
 
@@ -63,20 +67,24 @@
 
 <main class="form-signin">
     <form action="${pageContext.request.contextPath}/login" method="post">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 fw-normal"><fmt:message key="label.pleaseSignIn"/></h1>
 
         <div class="form-floating">
-            <input type="login" name="login" class="form-control" id="floatingInput" placeholder="Login">
-            <label for="floatingInput">Login</label>
+            <input type="login" name="login" class="form-control" id="floatingInput" placeholder="<fmt:message key="label.login"/>">
+            <label for="floatingInput"><fmt:message key="label.login"/></label>
         </div>
         <div class="form-floating">
-            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
-            <label for="floatingPassword">Password</label>
+            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="<fmt:message key="label.password"/>">
+            <label for="floatingPassword"><fmt:message key="label.password"/></label>
         </div>
 
-        <button class="w-100 btn btn-dark btn-lg btn-primary" type="submit">Sign in</button>
+        <button class="w-100 btn btn-dark btn-lg btn-primary" type="submit"><fmt:message key="label.login"/></button>
 
-        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/schedule">Back to Schedule</a>
+        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/schedule"><fmt:message key="label.backToSchedule"/></a>
+        <select name="sessionLocale">
+            <option value="en">English</option>
+            <option value="ru">Russian</option>
+        </select>
     </form>
 </main>
 

@@ -1,8 +1,13 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.murdered.cinema.model.Film" %>
 <%@ page import="com.murdered.cinema.service.film.FilmService" %>
 <%@ page import="com.murdered.cinema.dao.film.FilmDaoImpl" %>
-<!DOCTYPE html>
+
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="message"/>
+<!doctype html>
 <html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -15,13 +20,13 @@
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/schedule">Schedule</a>
-            <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/films">Films<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="${pageContext.request.contextPath}/schedule"><fmt:message key="label.schedule"/></a>
+            <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/films"><fmt:message key="label.films"/></a>
         </div>
     </div>
         <div>
-            <a href="${pageContext.request.contextPath}/cabinet" class="btn btn-dark  mr-2" role="button" aria-pressed="true">Cabinet</a>
-            <a href="${pageContext.request.contextPath}/logout" class="btn btn-dark mr-2" role="button" aria-pressed="true" >Logout</a>
+            <a href="${pageContext.request.contextPath}/cabinet" class="btn btn-dark  mr-2" role="button" aria-pressed="true"><fmt:message key="label.cabinet"/></a>
+            <a href="${pageContext.request.contextPath}/logout" class="btn btn-dark mr-2" role="button" aria-pressed="true" ><fmt:message key="label.logout"/></a>
         </div>
 </nav>
 
@@ -29,10 +34,10 @@
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Genre</th>
-            <th>Duration</th>
+            <th><fmt:message key="label.title"/></th>
+            <th><fmt:message key="label.description"/></th>
+            <th><fmt:message key="label.genre"/></th>
+            <th><fmt:message key="label.duration"/></th>
             <th>IMDB</th>
         </tr>
         </thead>

@@ -1,3 +1,8 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="message"/>
 <%--
   Created by IntelliJ IDEA.
   User: murdered
@@ -6,6 +11,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!doctype html>
 <html>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -24,7 +30,7 @@
             <div class="col-md-9 personal-info">
                 <form class="form-horizontal" role="form" method="post">
                     <div class="form-group">
-                        <label class="col-lg-3 control-label">Num of tickets:</label>
+                        <label class="col-lg-3 control-label"><fmt:message key="label.numOfTickets"/>:</label>
                         <div class="">
                             <input name="numOfTickets" class="form-control" type="number" value="" min="1" max="${requestScope.available_places}">
                         </div>
@@ -57,8 +63,8 @@
                         </div>
                     </div>
                     <div>
-                        <button class=" btn btn-dark btn-lg btn-primary" type="submit" value="">Buy</button>
-                        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/cabinet">Undo</a>
+                        <button class=" btn btn-dark btn-lg btn-primary" type="submit" value=""><fmt:message key="label.buy"/></button>
+                        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/cabinet"><fmt:message key="label.undo"/></a>
                     </div>
                 </form>
             </div>

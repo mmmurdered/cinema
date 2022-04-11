@@ -6,7 +6,11 @@
 <%@ page import="com.murdered.cinema.dao.session.SessionDaoImpl" %>
 <%@ page import="com.murdered.cinema.dto.SessionDTO" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %><%--
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="message"/>
+<%--
   Created by IntelliJ IDEA.
   User: murdered
   Date: 07.02.2022
@@ -25,33 +29,26 @@
         <%--    <a class="navbar-brand" href="/schedule">CINEMA</a>--%>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/schedule">Schedule <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/films">Films</a>
+                <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/schedule"><fmt:message key="label.schedule"/></a>
+                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/films"><fmt:message key="label.films"/></a>
             </div>
             <%--<label><% User user = (User) request.getSession().getAttribute("user");
                 if(user != null)
                     response.getWriter().println("Hello, " + user.getLogin() + "!");
             %></label>--%>
         </div>
-            <a href="${pageContext.request.contextPath}/register" class="btn btn-dark mr-2" role="button" aria-pressed="true">Register</a>
-            <a href="${pageContext.request.contextPath}/login" class="btn btn-dark" role="button" aria-pressed="true">Login</a>
+            <a href="${pageContext.request.contextPath}/register" class="btn btn-dark mr-2" role="button" aria-pressed="true"><fmt:message key="label.register"/></a>
+            <a href="${pageContext.request.contextPath}/login" class="btn btn-dark" role="button" aria-pressed="true"><fmt:message key="label.login"/></a>
     </nav>
 </div>
-<%--<div>
-    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=name">Sort by name</a>
-    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=time">Sort by time</a>
-    <a class="btn btn-dark" href="${pageContext.request.contextPath}/schedule/?sort=available_places">Sort by places</a>
-</div>--%>
 <div class="col-auto">
     <table class="table table-bordered">
         <thead class="thead-dark">
         <tr>
-            <%--<th>Id</th>--%>
-            <th>Title</th>
-            <th>Genre</th>
-            <th>Date and Time</th>
-            <th>Free seats</th>
-            <%--<th>Available</th>--%>
+            <th><fmt:message key="label.title"/></th>
+            <th><fmt:message key="label.genre"/></th>
+            <th><fmt:message key="label.date"/></th>
+            <th><fmt:message key="label.seats"/></th>
         </tr>
         </thead>
 
