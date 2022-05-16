@@ -40,6 +40,8 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email").trim();
         String password = request.getParameter("password").trim();
 
+        System.out.println(login);
+
         User newUser = new User(login, email, EncryptionUtilMD5.getMd5(password));
         newUser.setRole(UserRole.REGISTERED_USER);
 

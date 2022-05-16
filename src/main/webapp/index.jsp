@@ -7,6 +7,7 @@
 <%@ page import="com.murdered.cinema.dto.SessionDTO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.util.stream.Collectors" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -60,6 +61,7 @@
                 SessionDTO sessionDTO = new SessionDTO(session_cinema);
                 sessionDTOList.add(sessionDTO);
             }
+            sessionDTOList = sessionDTOList.stream().limit(15).collect(Collectors.toList());
 
             for (SessionDTO session_cinema : sessionDTOList) {
         %>
