@@ -53,10 +53,10 @@
             </select>
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="available" id="flexCheckDefault" name="isAvailable">
-                <label class="form-check-label" for="flexCheckDefault">
-                    <fmt:message key="label.availableSessions"/>
-                </label>
+                <label class="form-check-label" for="flexCheckDefault"><fmt:message key="label.availableSessions"/></label>
+                <input type="date" name="date" min="${firstDate}" max="${lastDate}">
                 <input type="submit" value="<fmt:message key="label.submit"/>">
+                <a href="${pageContext.request.contextPath}/schedule"><fmt:message key="label.reset"/></a>
             </div>
         </div>
     </form>
@@ -89,7 +89,6 @@
         </c:forEach>
         <tr>
     </table>
-
 </div>
 </body>
 </html>

@@ -12,8 +12,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.murdered.cinema.dao.QUERY.SQL_FIND_ALL_FILMS;
-
 public class FilmDaoImpl implements FilmDao {
     private static Logger logger = Logger.getLogger(FilmDaoImpl.class);
 
@@ -52,11 +50,6 @@ public class FilmDaoImpl implements FilmDao {
         }
 
         return film;
-    }
-
-    @Override
-    public void update(Film film, String[] params) {
-
     }
 
     @Override

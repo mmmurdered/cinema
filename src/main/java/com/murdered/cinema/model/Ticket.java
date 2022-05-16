@@ -7,23 +7,20 @@ public class Ticket {
     private int userId;
     private int sessionId;
     private int sessionFilmId;
-    private int seatId;
 
     public Ticket(){}
 
-    public Ticket(int id, int userId, int sessionId, int sessionFilmId, int seatId) {
+    public Ticket(int id, int userId, int sessionId, int sessionFilmId) {
         this.id = id;
         this.userId = userId;
         this.sessionId = sessionId;
         this.sessionFilmId = sessionFilmId;
-        this.seatId = seatId;
     }
 
-    public Ticket(int userId, int sessionId, int sessionFilmId, int seatId) {
+    public Ticket(int userId, int sessionId, int sessionFilmId) {
         this.userId = userId;
         this.sessionId = sessionId;
         this.sessionFilmId = sessionFilmId;
-        this.seatId = seatId;
     }
 
     public int getId() {
@@ -58,13 +55,6 @@ public class Ticket {
         this.sessionFilmId = sessionFilmId;
     }
 
-    public int getSeatId() {
-        return seatId;
-    }
-
-    public void setSeatId(int seatId) {
-        this.seatId = seatId;
-    }
 
     @Override
     public String toString() {
@@ -73,7 +63,6 @@ public class Ticket {
                 ", userId=" + userId +
                 ", sessionId=" + sessionId +
                 ", sessionFilmId=" + sessionFilmId +
-                ", seatId=" + seatId +
                 '}';
     }
 }

@@ -8,6 +8,8 @@ import com.murdered.cinema.service.film.FilmService;
 import com.murdered.cinema.service.session.SessionService;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SessionDTO {
     private int id;
@@ -64,5 +66,14 @@ public class SessionDTO {
 
     public void setAvailablePlaces(int availablePlaces) {
         this.availablePlaces = availablePlaces;
+    }
+
+    public static List<SessionDTO> convertToSessionDTO(List<Session> sessionList) {
+        List<SessionDTO> sessionDTOList = new ArrayList<>();
+        for (Session session_cinema : sessionList) {
+            SessionDTO sessionDTO = new SessionDTO(session_cinema);
+            sessionDTOList.add(sessionDTO);
+        }
+        return sessionDTOList;
     }
 }

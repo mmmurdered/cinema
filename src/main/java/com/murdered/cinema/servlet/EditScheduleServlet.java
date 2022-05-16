@@ -4,6 +4,7 @@ import com.murdered.cinema.dao.session.SessionDaoImpl;
 import com.murdered.cinema.model.Session;
 import com.murdered.cinema.service.session.SessionService;
 import com.murdered.cinema.util.MappingProperties;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -15,8 +16,12 @@ import java.text.SimpleDateFormat;
 
 @WebServlet("/editSession")
 public class EditScheduleServlet extends HttpServlet {
+    private static Logger logger = Logger.getLogger(EditFilmServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("SERVLET: EDIT SCHEDULE SERVLET DO GET");
+
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String addSession = mappingProperties.getProperty("addSession");
 
@@ -32,6 +37,8 @@ public class EditScheduleServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("SERVLET: EDIT SCHEDULE SERVLET DO POST");
+
         switch (request.getParameter("action")) {
             case "addSession":
                 addSession(request, response);
@@ -42,10 +49,10 @@ public class EditScheduleServlet extends HttpServlet {
         }
     }
 
-    private void addSession(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void addSession(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String cabinetLink = mappingProperties.getProperty("cabinetLink");
-        String errorLink = mappingProperties.getProperty("errorLink");
+        String errorPage = mappingProperties.getProperty("errorPage");
 
         int filmId = Integer.parseInt(request.getParameter("film_id"));
         String date = getDateFromJsp(request);
@@ -55,8 +62,8 @@ public class EditScheduleServlet extends HttpServlet {
         int hours = Integer.parseInt(formatter.format(dateTime));
 
         if(hours < 9 || hours > 22){
-            response.sendRedirect(request.getContextPath() + errorLink);
-            //TODO prop & error page
+            request.setAttribute("error", "Time must be after 9 and after 22");
+            request.getRequestDispatcher(errorPage).forward(request, response);
         } else {
             double price = Double.parseDouble(request.getParameter("price"));
             int availablePlaces = Integer.parseInt(request.getParameter("places"));

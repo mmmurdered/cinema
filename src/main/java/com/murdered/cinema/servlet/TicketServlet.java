@@ -10,16 +10,24 @@ import com.murdered.cinema.model.user.UserRole;
 import com.murdered.cinema.service.session.SessionService;
 import com.murdered.cinema.service.ticket.TicketService;
 import com.murdered.cinema.util.MappingProperties;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 @WebServlet("/buy")
 public class TicketServlet extends HttpServlet {
+    private static Logger logger = Logger.getLogger(ScheduleServlet.class);
+
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("SERVLET: TICKET SERVLET DO GET");
+
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String errorPage = mappingProperties.getProperty("errorPage");
         String buyTicketPage = mappingProperties.getProperty("buyTicketPage");
@@ -34,9 +42,8 @@ public class TicketServlet extends HttpServlet {
         request.setAttribute("film_id", request.getParameter("session_film_id"));
 
         SessionService sessionService = new SessionService(SessionDaoImpl.getInstance());
-
-        int availablePlaces = sessionService.getSessionById(Integer.parseInt(request.getParameter("session_id")))
-                .getAvailablePlaces();
+        Session session = sessionService.getSessionById(Integer.parseInt(request.getParameter("session_id")));
+        int availablePlaces = session.getAvailablePlaces();
 
         request.setAttribute("available_places", availablePlaces);
 
@@ -44,7 +51,9 @@ public class TicketServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("SERVLET: TICKET SERVLET DO POST");
+
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String cabinetLink = mappingProperties.getProperty("cabinetLink");
 

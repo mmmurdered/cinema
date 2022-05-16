@@ -1,5 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
 <fmt:setBundle basename="message"/>
@@ -46,26 +46,15 @@
       <th>IMDB</th>
     </tr>
     </thead>
-
-
-    <%
-      //List<Film> filmList = DBManager.getInstance().getFilms();
-      FilmService filmService = new FilmService(FilmDaoImpl.getInstance());
-      List<Film> filmList = filmService.getAllFilms();
-
-      for (Film film : filmList) {
-    %>
-    <tr>
-      <td><%= film.getTitle()%></td>
-      <td><%= film.getDescription()%></td>
-      <td><%= film.getGenre()%></td>
-      <td><%= film.getDuration()%></td>
-      <td><%= film.getImdbRating()%></td>
-    </tr>
-    <%
-      }
-    %>
-
+    <c:forEach items="${filmList}" var="film">
+      <tr>
+        <td><c:out value="${film.getTitle()}"/></td>
+        <td><c:out value="${film.getDescription()}"/></td>
+        <td><c:out value="${film.getGenre()}"/></td>
+        <td><c:out value="${film.getDuration()}"/></td>
+        <td><c:out value="${film.getImdbRating()}"/></td>
+      </tr>
+    </c:forEach>
   </table>
 </div>
 

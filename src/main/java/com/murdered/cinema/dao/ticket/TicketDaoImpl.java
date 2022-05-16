@@ -69,7 +69,6 @@ public class TicketDaoImpl implements TicketDao {
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.info("Error: adding tickets to database");
-
             e.printStackTrace();
         } finally {
             basicConnectionPool.releaseConnection(connection);
@@ -78,23 +77,69 @@ public class TicketDaoImpl implements TicketDao {
         return ticket;
     }
 
-    @Override
-    public void update(Ticket ticket, String[] params) {
-
-    }
 
     @Override
     public Ticket get(long id) {
+        Connection connection = basicConnectionPool.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY.SQL_FIND_TICKET_BY_ID.query());
+            preparedStatement.setLong(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Ticket ticket = new Ticket();
+            while (resultSet.next()){
+                ticket.setId(resultSet.getInt(1));
+                ticket.setUserId(resultSet.getInt(2));
+                ticket.setSessionId(resultSet.getInt(3));
+                ticket.setSessionFilmId(resultSet.getInt(4));
+            }
+            return ticket;
+        } catch (SQLException e) {
+            logger.info("Error: getting ticket by id");
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public void delete(int id) {
+        Connection connection = basicConnectionPool.getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(QUERY.SQL_DELETE_TICKET_BY_ID.query());
+            statement.setInt(1, id);
 
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.info("Error: deleting ticket by id from database");
+            e.printStackTrace();
+        } finally {
+            basicConnectionPool.releaseConnection(connection);
+        }
     }
 
     @Override
     public List<Ticket> getAll() {
+        Connection connection = basicConnectionPool.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY.SQL_FIND_ALL_TICKETS.query());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            List<Ticket> ticketList = new ArrayList<>();
+            while (resultSet.next()){
+                Ticket ticket = new Ticket();
+
+                ticket.setId(resultSet.getInt(1));
+                ticket.setUserId(resultSet.getInt(2));
+                ticket.setSessionId(resultSet.getInt(3));
+                ticket.setSessionFilmId(resultSet.getInt(4));
+
+                ticketList.add(ticket);
+            }
+            return ticketList;
+        } catch (SQLException e) {
+            logger.info("Error: getting all tickets");
+            e.printStackTrace();
+        }
         return null;
     }
 

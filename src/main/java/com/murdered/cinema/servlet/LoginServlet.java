@@ -8,6 +8,7 @@ import com.murdered.cinema.service.film.FilmService;
 import com.murdered.cinema.service.user.UserService;
 import com.murdered.cinema.util.EncryptionUtilMD5;
 import com.murdered.cinema.util.MappingProperties;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -17,15 +18,22 @@ import java.util.List;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    private static Logger logger = Logger.getLogger(LoginServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("SERVLET: LOGIN SERVLET DO GET");
+
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String loginPage = mappingProperties.getProperty("loginPage");
+
         request.getRequestDispatcher(loginPage).forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("SERVLET: LOGIN SERVLET DO POST");
+
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String errorPage = mappingProperties.getProperty("errorPage");
         String scheduleLink = mappingProperties.getProperty("scheduleLink");

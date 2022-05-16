@@ -15,16 +15,6 @@ public class SessionService {
         this.sessionDao = sessionDao;
     }
 
-    public List<Session> getAllSessions(){
-        logger.info("Getting all sessions");
-        return sessionDao.getAll();
-    }
-
-    public List<Session> getAllSessionsOrderName() {
-        logger.info("Getting all sessions ordered by name");
-        return sessionDao.getSessionByName();
-    }
-
     public void add(Session session) {
         logger.info("Adding new session");
         sessionDao.save(session);

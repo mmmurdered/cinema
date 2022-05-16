@@ -2,7 +2,6 @@ package com.murdered.cinema.dao.session;
 
 import com.murdered.cinema.connection.BasicConnectionPool;
 import com.murdered.cinema.dao.QUERY;
-import com.murdered.cinema.dao.film.FilmDaoImpl;
 import com.murdered.cinema.model.Session;
 import org.apache.log4j.Logger;
 
@@ -40,17 +39,13 @@ public class SessionDaoImpl implements SessionDao {
             statement.executeUpdate();
         } catch (SQLException e) {
             logger.info("Error: adding session to database");
-            //e.printStackTrace();
+            e.printStackTrace();
         } finally {
             basicConnectionPool.releaseConnection(connection);
         }
         return session;
     }
 
-    @Override
-    public void update(Session session, String[] params) {
-
-    }
 
     @Override
     public Session get(long id) {
@@ -116,69 +111,6 @@ public class SessionDaoImpl implements SessionDao {
             }
         } catch (SQLException e) {
             logger.info("Error: getting all sessions from database");
-            e.printStackTrace();
-        } finally {
-            basicConnectionPool.releaseConnection(connection);
-        }
-
-        return schedule;
-    }
-
-    @Override
-    public List<Session> getSessionByName() {
-        List<Session> schedule = new ArrayList<>();
-        Connection connection = basicConnectionPool.getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(QUERY.SQL_FIND_SESSION_ORDER_BY_NAME.query());
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Session tempSession = new Session();
-
-                tempSession.setId(resultSet.getInt(2));
-                tempSession.setSessionFilm(resultSet.getInt(1));
-                tempSession.setTime(resultSet.getTimestamp(4));
-                tempSession.setPrice(resultSet.getDouble(3));
-                tempSession.setAvailablePlaces(resultSet.getInt(5));
-
-                schedule.add(tempSession);
-            }
-        } catch (SQLException e) {
-            logger.info("Error: getting session by name from database");
-            e.printStackTrace();
-        } finally {
-            basicConnectionPool.releaseConnection(connection);
-        }
-
-        return schedule;
-    }
-
-    @Override
-    public List<Session> getSessionByDate() {
-        return null;
-    }
-
-    @Override
-    public List<Session> getSessionByAvailablePlaces() {
-        List<Session> schedule = new ArrayList<>();
-        Connection connection = basicConnectionPool.getConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(QUERY.SQL_FIND_ALL_SESSIONS_ORDER_BY_PLACES.query());
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Session tempSession = new Session();
-
-                tempSession.setId(resultSet.getInt(1));
-                tempSession.setSessionFilm(resultSet.getInt(2));
-                tempSession.setTime(resultSet.getTimestamp(3));
-                tempSession.setPrice(resultSet.getDouble(4));
-                tempSession.setAvailablePlaces(resultSet.getInt(5));
-
-                schedule.add(tempSession);
-            }
-        } catch (SQLException e) {
-            logger.info("Error: getting session by places from database");
             e.printStackTrace();
         } finally {
             basicConnectionPool.releaseConnection(connection);

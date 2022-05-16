@@ -5,6 +5,7 @@ import com.murdered.cinema.dao.film.FilmDaoImpl;
 import com.murdered.cinema.model.Film;
 import com.murdered.cinema.service.film.FilmService;
 import com.murdered.cinema.util.MappingProperties;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -13,13 +14,16 @@ import java.io.IOException;
 
 @WebServlet("/editFilm")
 public class EditFilmServlet extends HttpServlet {
+    private static Logger logger = Logger.getLogger(EditFilmServlet.class);
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("SERVLET: EDIT FILM SERVLET DO GET");
+
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String addFilm = mappingProperties.getProperty("addFilm");
 
         String action = request.getParameter("action");
-
         switch (action) {
             case "addFilm":
                 request.getRequestDispatcher(addFilm).forward(request, response);
@@ -28,13 +32,15 @@ public class EditFilmServlet extends HttpServlet {
                 deleteFilm(request, response);
                 break;
         }
-
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("SERVLET: EDIT FILM SERVLET DO POST");
+
         MappingProperties mappingProperties = MappingProperties.getInstance();
         String cabinetLink = mappingProperties.getProperty("cabinetLink");
+
         addFilm(request, response);
 
         response.sendRedirect(request.getContextPath() + cabinetLink);
@@ -48,8 +54,6 @@ public class EditFilmServlet extends HttpServlet {
         double filmIDMB = Double.parseDouble(request.getParameter("imdb"));
 
         Film newFilm = new Film(filmTitle, filmDescription, filmGenre, filmDuration, filmIDMB);
-
-        System.out.println(newFilm);
 
         FilmService filmService = new FilmService(FilmDaoImpl.getInstance());
         filmService.add(newFilm);

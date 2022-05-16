@@ -2,7 +2,6 @@ package com.murdered.cinema.dao.user;
 
 import com.murdered.cinema.connection.BasicConnectionPool;
 import com.murdered.cinema.dao.QUERY;
-import com.murdered.cinema.dao.film.FilmDaoImpl;
 import com.murdered.cinema.model.user.User;
 import com.murdered.cinema.model.user.UserRole;
 import org.apache.log4j.Logger;
@@ -11,7 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.murdered.cinema.dao.QUERY.*;
@@ -82,17 +81,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void update(User user, String[] params) {
-
-    }
-
-    @Override
     public User get(long id) {
         User user = new User();
         Connection connection = basicConnectionPool.getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(QUERY.SQL_FIND_USER_BY_ID.query());
-
             statement.setLong(1, id);
 
             ResultSet resultSet = statement.executeQuery();
@@ -114,11 +107,43 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void delete(int id) {
-
+        Connection connection = basicConnectionPool.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_USER_BY_ID.query());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.info("Error: deleting user by id");
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<User> getAll() {
+        Connection connection = basicConnectionPool.getConnection();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_USERS.query());
+            ResultSet resultSet = statement.executeQuery();
+
+            List<User> userList = new ArrayList<>();
+            while (resultSet.next()) {
+                User tempUser = new User();
+
+                tempUser.setId(resultSet.getInt("id"));
+                tempUser.setLogin(resultSet.getString("login"));
+                tempUser.setPassword(resultSet.getString("password"));
+                tempUser.setEmail(resultSet.getString("email"));
+                tempUser.setRole(UserRole.values()[resultSet.getInt("role_id") - 1]);
+
+                userList.add(tempUser);
+            }
+            return userList;
+        } catch (SQLException e) {
+            logger.info("Error: getting user by login from database");
+            e.printStackTrace();
+        } finally {
+            basicConnectionPool.releaseConnection(connection);
+        }
         return null;
     }
 

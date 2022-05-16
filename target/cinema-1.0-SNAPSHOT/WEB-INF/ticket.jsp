@@ -22,19 +22,15 @@
     <form action="${pageContext.request.contextPath}/buy" method="post">
         <input hidden name="session_id" value="${requestScope.id}">
         <input hidden name="session_film_id" value="${requestScope.film_id}">
-        <%--<input hidden name="available_places" value="${requestScope.available_places}">--%>
-        <%--<input hidden name="session_id" value="${s.getId()}">
-        <input hidden name="session_id" value="${s.getId()}">--%>
+        <div class="form-group col-md-3">
+            <label class="col-lg-3 control-label"><fmt:message key="label.numOfTickets"/>:</label>
+            <div class="">
+                <input  name="numOfTickets" class="form-control" type="number" value="" min="1" max="${requestScope.available_places}">
+            </div>
+        </div>
         <div class="row">
-            <!-- edit form column -->
-            <div class="col-md-9 personal-info">
+            <div class="col-md-3 personal-info">
                 <form class="form-horizontal" role="form" method="post">
-                    <div class="form-group">
-                        <label class="col-lg-3 control-label"><fmt:message key="label.numOfTickets"/>:</label>
-                        <div class="">
-                            <input name="numOfTickets" class="form-control" type="number" value="" min="1" max="${requestScope.available_places}">
-                        </div>
-                    </div>
                     <div class="padding">
                         <div class="row">
                             <div class="container-fluid d-flex justify-content-center">
@@ -64,7 +60,7 @@
                     </div>
                     <div>
                         <button class=" btn btn-dark btn-lg btn-primary" type="submit" value=""><fmt:message key="label.buy"/></button>
-                        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/cabinet"><fmt:message key="label.undo"/></a>
+                        <a class="nav-item nav-link" href="${pageContext.request.contextPath}/schedule"><fmt:message key="label.undo"/></a>
                     </div>
                 </form>
             </div>

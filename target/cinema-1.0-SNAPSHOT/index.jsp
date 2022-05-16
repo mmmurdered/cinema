@@ -6,6 +6,7 @@
 <%@ page import="com.murdered.cinema.dao.session.SessionDaoImpl" %>
 <%@ page import="com.murdered.cinema.dto.SessionDTO" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.sql.Timestamp" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -32,10 +33,6 @@
                 <a class="nav-item nav-link active" href="${pageContext.request.contextPath}/schedule"><fmt:message key="label.schedule"/></a>
                 <a class="nav-item nav-link" href="${pageContext.request.contextPath}/films"><fmt:message key="label.films"/></a>
             </div>
-            <%--<label><% User user = (User) request.getSession().getAttribute("user");
-                if(user != null)
-                    response.getWriter().println("Hello, " + user.getLogin() + "!");
-            %></label>--%>
         </div>
             <a href="${pageContext.request.contextPath}/register" class="btn btn-dark mr-2" role="button" aria-pressed="true"><fmt:message key="label.register"/></a>
             <a href="${pageContext.request.contextPath}/login" class="btn btn-dark" role="button" aria-pressed="true"><fmt:message key="label.login"/></a>
@@ -55,7 +52,7 @@
 
         <%
             SessionService sessionService = new SessionService(SessionDaoImpl.getInstance());
-            List<Session> schedule = sessionService.getAllSessions();
+            List<Session> schedule = sessionService.getAllSessionsAfter(new Timestamp(System.currentTimeMillis()));
 
             List<SessionDTO> sessionDTOList = new ArrayList<>();
 

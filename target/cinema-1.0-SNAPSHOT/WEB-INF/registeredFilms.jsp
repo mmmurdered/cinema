@@ -1,4 +1,5 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.murdered.cinema.model.Film" %>
 <%@ page import="com.murdered.cinema.service.film.FilmService" %>
@@ -42,8 +43,17 @@
         </tr>
         </thead>
 
+        <c:forEach items="${filmList}" var="film">
+            <tr>
+                <td><c:out value="${film.getTitle()}"/></td>
+                <td><c:out value="${film.getDescription()}"/></td>
+                <td><c:out value="${film.getGenre()}"/></td>
+                <td><c:out value="${film.getDuration()}"/></td>
+                <td><c:out value="${film.getImdbRating()}"/></td>
+            </tr>
+        </c:forEach>
 
-        <%
+        <%--<%
             FilmService filmService = new FilmService(FilmDaoImpl.getInstance());
             List<Film> filmList = filmService.getAllFilms();
 
@@ -58,7 +68,7 @@
         </tr>
         <%
             }
-        %>
+        %>--%>
 
     </table>
 </div>
