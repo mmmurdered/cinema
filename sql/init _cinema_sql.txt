@@ -1,0 +1,116 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema cinema
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema cinema
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `cinema` DEFAULT CHARACTER SET utf8 ;
+USE `cinema` ;
+
+-- -----------------------------------------------------
+-- Table `cinema`.`film`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cinema`.`film` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(100) NOT NULL,
+  `description` VARCHAR(2000) NOT NULL,
+  `genre` VARCHAR(45) NOT NULL,
+  `duration` INT NOT NULL,
+  `imdb_rating` DOUBLE NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `title_UNIQUE` (`title` ASC) VISIBLE)
+ENGINE = InnoDB
+AUTO_INCREMENT = 23
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `cinema`.`role`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cinema`.`role` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `role_name` VARCHAR(32) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `cinema`.`session`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cinema`.`session` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `film_id` INT NOT NULL,
+  `time` DATETIME NOT NULL,
+  `price` DOUBLE NOT NULL,
+  `available_places` INT NOT NULL DEFAULT '64',
+  PRIMARY KEY (`id`, `film_id`),
+  INDEX `fk_session_film1_idx` (`film_id` ASC) VISIBLE,
+  CONSTRAINT `fk_session_film1`
+    FOREIGN KEY (`film_id`)
+    REFERENCES `cinema`.`film` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 66
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `cinema`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cinema`.`user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(32) NOT NULL,
+  `password` VARCHAR(32) NOT NULL,
+  `login` VARCHAR(32) CHARACTER SET 'utf8' NOT NULL,
+  `role_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `role_id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE,
+  UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE,
+  INDEX `fk_user_role1_idx` (`role_id` ASC) VISIBLE,
+  CONSTRAINT `fk_user_role1`
+    FOREIGN KEY (`role_id`)
+    REFERENCES `cinema`.`role` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 34
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+-- -----------------------------------------------------
+-- Table `cinema`.`ticket`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `cinema`.`ticket` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `session_id` INT NOT NULL,
+  `session_film_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_ticket_user1_idx` (`user_id` ASC) VISIBLE,
+  INDEX `fk_ticket_session1_idx` (`session_id` ASC, `session_film_id` ASC) VISIBLE,
+  CONSTRAINT `fk_ticket_session1`
+    FOREIGN KEY (`session_id` , `session_film_id`)
+    REFERENCES `cinema`.`session` (`id` , `film_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `fk_ticket_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `cinema`.`user` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 138
+DEFAULT CHARACTER SET = utf8mb3;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
