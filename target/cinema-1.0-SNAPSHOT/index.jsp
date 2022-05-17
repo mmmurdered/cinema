@@ -62,6 +62,7 @@
                 sessionDTOList.add(sessionDTO);
             }
             sessionDTOList = sessionDTOList.stream().limit(15).collect(Collectors.toList());
+
             for (SessionDTO session_cinema : sessionDTOList) {
         %>
         <tr>
